@@ -6,21 +6,67 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.store.favquotes.R
+import com.store.favquotes.extension.collectAsStateLifecycleAware
+import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect
+import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect.Action.*
+import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect.Event.Navigate.*
+import com.store.favquotes.feature.quotes.ui.viewmodel.MainViewModel
 import com.store.favquotes.ui.theme.spacing
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
-fun MainScreen() {
-    Text(text = "Main screen")
+fun MainScreen(
+    viewModel: MainViewModel = hiltViewModel(),
+    goToPublicQuotes: () -> Unit,
+    goToSearchQuotes: () -> Unit,
+    goToLogin: () -> Unit,
+) {
+    val state = viewModel.state.collectAsStateLifecycleAware().value
+    MainScreen(
+        quote = state.quote,
+        browseQuotesAction = { viewModel.onAction(action = OnPublicQuotes) },
+        searchQuotesAction = { viewModel.onAction(action = OnSearchQuotes) },
+        loginAction = { viewModel.onAction(action = OnLogin) },
+    )
+
+    HandleEvents(
+        event = viewModel.event,
+        goToPublicQuotes = goToPublicQuotes,
+        goToSearchQuotes = goToSearchQuotes,
+        goToLogin = goToLogin,
+    )
+}
+
+@Composable
+private fun HandleEvents(
+    event: Channel<MainScreenStateEffect.Event>,
+    goToPublicQuotes: () -> Unit,
+    goToSearchQuotes: () -> Unit,
+    goToLogin: () -> Unit
+) {
+    LaunchedEffect(key1 = true) {
+        event.receiveAsFlow().collectLatest { event ->
+            when (event) {
+                is ToLogin -> goToLogin()
+                is ToPublicQuotes -> goToPublicQuotes()
+                is ToSearchQuotes -> goToSearchQuotes()
+            }
+        }
+    }
 }
 
 @Composable
 private fun MainScreen(
-    quote: String,
+    quote: String?,
     browseQuotesAction: () -> Unit,
     searchQuotesAction: () -> Unit,
     loginAction: () -> Unit,
@@ -40,10 +86,12 @@ private fun MainScreen(
             text = stringResource(id = R.string.fav_quotes_tile),
             style = MaterialTheme.typography.h4,
         )
-        Text(
-            text = quote,
-            style = MaterialTheme.typography.subtitle1,
-        )
+        quote?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.subtitle1,
+            )
+        }
         Button(
             modifier = Modifier
                 .fillMaxWidth()

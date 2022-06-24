@@ -6,6 +6,7 @@ import androidx.navigation.compose.navigation
 import com.store.favquotes.feature.quotes.ui.MainScreen
 import com.store.favquotes.route.NavigationRoute
 import com.store.favquotes.route.routeComposable
+import timber.log.Timber
 
 object QuotesGraph : NavigationRoute() {
     override val route: String = "quotes"
@@ -16,7 +17,17 @@ object QuotesGraph : NavigationRoute() {
             route = QuotesGraph.route
         ) {
             routeComposable(Screens.MainScreen) {
-                MainScreen()
+                MainScreen(
+                    goToPublicQuotes = {
+                        Timber.d("")
+                    },
+                    goToSearchQuotes = {
+                        Timber.d("")
+                    },
+                    goToLogin = {
+                        Timber.d("")
+                    },
+                )
             }
         }
 
