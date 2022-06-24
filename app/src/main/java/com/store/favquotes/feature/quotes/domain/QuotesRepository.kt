@@ -5,4 +5,5 @@ import com.store.favquotes.network.ResultWrapper
 
 interface QuotesRepository {
     suspend fun getRandomQuote(): ResultWrapper<Quote>
+    suspend fun getQuotes(): ResultWrapper<List<Quote>>
 }

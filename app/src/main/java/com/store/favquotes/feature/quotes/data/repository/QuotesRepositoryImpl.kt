@@ -18,4 +18,8 @@ class QuotesRepositoryImpl(
         return safeApiCall(dispatcher) { api.getQuotes().quotes.toQuotes().random() }
     }
 
+    override suspend fun getQuotes(): ResultWrapper<List<Quote>> {
+        return safeApiCall(dispatcher) { api.getQuotes().quotes.toQuotes() }
+    }
+
 }

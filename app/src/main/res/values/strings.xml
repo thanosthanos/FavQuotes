@@ -5,6 +5,9 @@
     <string name="error_could_not_load_quote">You were unlucky, please try another time!</string>
     <string name="public_quotes">Public quotes</string>
     <string name="search_quotes">Search quotes</string>
+    <string name="list_of_public_quotes">List of public quotes</string>
+    <string name="error_general">Unexpected error, please try again later…</string>
+    <string name="favorites">%d favs</string>
     <string name="login">Login</string>
 
 </resources>
