@@ -24,8 +24,11 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun providesOkHttp() = OkHttpClient
+    fun providesOkHttp(
+        authorizationInterceptor: AuthorizationInterceptor,
+    ) = OkHttpClient
         .Builder()
+        .addInterceptor(authorizationInterceptor)
         .callTimeout(callTimeout, TimeUnit.SECONDS)
         .build()
 
