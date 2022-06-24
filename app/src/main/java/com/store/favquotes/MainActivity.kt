@@ -10,34 +10,37 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.store.favquotes.feature.quotes.ui.graph.QuotesGraph
+import com.store.favquotes.feature.quotes.ui.graph.QuotesGraph.quotesGraph
 import com.store.favquotes.ui.theme.FavQuotesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FavQuotesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                QuotesApp()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun QuotesApp() {
+    val navController = rememberNavController()
+    NavHost(navController, startDestination = QuotesGraph.route) {
+        quotesGraph(navController = navController)
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     FavQuotesTheme {
-        Greeting("Android")
+        QuotesApp()
     }
 }
