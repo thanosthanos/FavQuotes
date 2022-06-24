@@ -3,6 +3,7 @@ package com.store.favquotes.feature.quotes.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.store.favquotes.R
 import com.store.favquotes.extension.collectAsStateLifecycleAware
+import com.store.favquotes.feature.quotes.domain.model.Quote
 import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect
 import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect.Action.*
 import com.store.favquotes.feature.quotes.ui.actions.MainScreenStateEffect.Event.Navigate.*
@@ -32,6 +34,8 @@ fun MainScreen(
 ) {
     val state = viewModel.state.collectAsStateLifecycleAware().value
     MainScreen(
+        isLoading = state.isLoading,
+        hasError = state.hasError,
         quote = state.quote,
         browseQuotesAction = { viewModel.onAction(action = OnPublicQuotes) },
         searchQuotesAction = { viewModel.onAction(action = OnSearchQuotes) },
@@ -66,7 +70,9 @@ private fun HandleEvents(
 
 @Composable
 private fun MainScreen(
-    quote: String?,
+    isLoading: Boolean,
+    hasError: Boolean,
+    quote: Quote?,
     browseQuotesAction: () -> Unit,
     searchQuotesAction: () -> Unit,
     loginAction: () -> Unit,
@@ -84,14 +90,32 @@ private fun MainScreen(
         Text(
             modifier = Modifier.padding(top = MaterialTheme.spacing.medium),
             text = stringResource(id = R.string.fav_quotes_tile),
-            style = MaterialTheme.typography.h4,
+            style = MaterialTheme.typography.h6,
         )
-        quote?.let {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.subtitle1,
-            )
+
+        when {
+            isLoading -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            hasError -> {
+                Text(
+                    text = stringResource(id = R.string.error_could_not_load_quote),
+                    style = MaterialTheme.typography.subtitle1,
+                )
+            }
+            quote != null -> {
+                Text(
+                    text = quote.body,
+                    style = MaterialTheme.typography.subtitle1,
+                )
+            }
         }
+
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,7 +153,21 @@ private fun MainScreen(
 @Composable
 fun DefaultPreview() {
     MainScreen(
-        quote = "This is a quote",
+        isLoading = false,
+        hasError = false,
+        quote = Quote(
+            tags = listOf(),
+            isFavorite = false,
+            authorPermalink = "",
+            body = "This is a quote",
+            id = 12,
+            favoritesCount = 1,
+            upvotesCount = 1,
+            downvotesCount = 1,
+            dialogue = false,
+            author = "",
+            url = "",
+        ),
         browseQuotesAction = {},
         searchQuotesAction = {},
         loginAction = {},
