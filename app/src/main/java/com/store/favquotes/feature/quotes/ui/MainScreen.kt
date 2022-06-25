@@ -32,6 +32,7 @@ fun MainScreen(
     goToPublicQuotes: () -> Unit,
     goToSearchQuotes: () -> Unit,
     goToLogin: () -> Unit,
+    goToSignUp: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateLifecycleAware().value
     MainScreen(
@@ -41,6 +42,7 @@ fun MainScreen(
         browseQuotesAction = { viewModel.onAction(action = OnPublicQuotes) },
         searchQuotesAction = { viewModel.onAction(action = OnSearchQuotes) },
         loginAction = { viewModel.onAction(action = OnLogin) },
+        signUpAction = { viewModel.onAction(action = OnSignUp) },
     )
 
     HandleEvents(
@@ -48,6 +50,7 @@ fun MainScreen(
         goToPublicQuotes = goToPublicQuotes,
         goToSearchQuotes = goToSearchQuotes,
         goToLogin = goToLogin,
+        goToSignUp = goToSignUp,
     )
 }
 
@@ -56,7 +59,8 @@ private fun HandleEvents(
     event: Channel<MainScreenStateEffect.Event>,
     goToPublicQuotes: () -> Unit,
     goToSearchQuotes: () -> Unit,
-    goToLogin: () -> Unit
+    goToLogin: () -> Unit,
+    goToSignUp: () -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         event.receiveAsFlow().collectLatest { event ->
@@ -64,6 +68,7 @@ private fun HandleEvents(
                 is ToLogin -> goToLogin()
                 is ToPublicQuotes -> goToPublicQuotes()
                 is ToSearchQuotes -> goToSearchQuotes()
+                ToSignUp -> goToSignUp()
             }
         }
     }
@@ -77,6 +82,7 @@ private fun MainScreen(
     browseQuotesAction: () -> Unit,
     searchQuotesAction: () -> Unit,
     loginAction: () -> Unit,
+    signUpAction: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -152,6 +158,16 @@ private fun MainScreen(
         ) {
             Text(text = stringResource(id = R.string.login))
         }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = MaterialTheme.spacing.medium),
+            shape = CircleShape,
+            onClick = signUpAction,
+            contentPadding = PaddingValues(all = MaterialTheme.spacing.medium),
+        ) {
+            Text(text = stringResource(id = R.string.sign_up))
+        }
     }
 }
 
@@ -177,5 +193,6 @@ fun DefaultPreview() {
         browseQuotesAction = {},
         searchQuotesAction = {},
         loginAction = {},
+        signUpAction = {},
     )
 }

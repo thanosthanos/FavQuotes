@@ -2,6 +2,7 @@ package com.store.favquotes.feature.quotes.domain
 
 import com.store.favquotes.feature.quotes.domain.model.LoginResponse
 import com.store.favquotes.feature.quotes.domain.model.Quote
+import com.store.favquotes.feature.quotes.domain.model.SignUpResponse
 import com.store.favquotes.network.ResultWrapper
 
 interface QuotesRepository {
@@ -12,4 +13,9 @@ interface QuotesRepository {
         userNameOrEmail: String,
         password: String
     ): ResultWrapper<LoginResponse>
+    suspend fun signUp(
+        userName: String,
+        email: String,
+        password: String,
+    ): ResultWrapper<SignUpResponse>
 }

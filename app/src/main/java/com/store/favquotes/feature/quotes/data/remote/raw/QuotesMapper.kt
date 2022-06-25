@@ -2,6 +2,13 @@ package com.store.favquotes.feature.quotes.data.remote.raw
 
 import com.store.favquotes.feature.quotes.domain.model.LoginResponse
 import com.store.favquotes.feature.quotes.domain.model.Quote
+import com.store.favquotes.feature.quotes.domain.model.SignUpResponse
+
+fun SignUpResponseRaw.toSignUpResponse(): SignUpResponse =
+    SignUpResponse(
+        login = login,
+        errorMessage = message,
+    )
 
 fun LoginResponseRaw.toLoginResponse(): LoginResponse =
     LoginResponse(

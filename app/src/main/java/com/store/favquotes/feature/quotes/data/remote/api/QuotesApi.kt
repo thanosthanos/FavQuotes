@@ -1,8 +1,6 @@
 package com.store.favquotes.feature.quotes.data.remote.api
 
-import com.store.favquotes.feature.quotes.data.remote.raw.LoginResponseRaw
-import com.store.favquotes.feature.quotes.data.remote.raw.QuotesResponseRaw
-import com.store.favquotes.feature.quotes.data.remote.raw.UserRequestRaw
+import com.store.favquotes.feature.quotes.data.remote.raw.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -20,4 +18,7 @@ interface QuotesApi {
 
     @POST("session")
     suspend fun login(@Body user: UserRequestRaw): LoginResponseRaw
+
+    @POST("users")
+    suspend fun signUp(@Body user: UserSignUpRequestRaw): SignUpResponseRaw
 }

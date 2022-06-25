@@ -15,6 +15,7 @@ object MainScreenStateEffect {
             object ToPublicQuotes: Navigate
             object ToSearchQuotes: Navigate
             object ToLogin: Navigate
+            object ToSignUp: Navigate
         }
     }
 
@@ -22,5 +23,6 @@ object MainScreenStateEffect {
         object OnPublicQuotes : Action
         object OnSearchQuotes : Action
         object OnLogin : Action
+        object OnSignUp : Action
     }
 }

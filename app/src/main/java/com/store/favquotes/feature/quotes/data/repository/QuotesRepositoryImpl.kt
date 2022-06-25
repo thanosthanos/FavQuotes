@@ -1,13 +1,11 @@
 package com.store.favquotes.feature.quotes.data.repository
 
 import com.store.favquotes.feature.quotes.data.remote.api.QuotesApi
-import com.store.favquotes.feature.quotes.data.remote.raw.UserRaw
-import com.store.favquotes.feature.quotes.data.remote.raw.UserRequestRaw
-import com.store.favquotes.feature.quotes.data.remote.raw.toLoginResponse
-import com.store.favquotes.feature.quotes.data.remote.raw.toQuotes
+import com.store.favquotes.feature.quotes.data.remote.raw.*
 import com.store.favquotes.feature.quotes.domain.QuotesRepository
 import com.store.favquotes.feature.quotes.domain.model.LoginResponse
 import com.store.favquotes.feature.quotes.domain.model.Quote
+import com.store.favquotes.feature.quotes.domain.model.SignUpResponse
 import com.store.favquotes.network.ResultWrapper
 import com.store.favquotes.network.safeApiCall
 import kotlinx.coroutines.CoroutineDispatcher
@@ -44,6 +42,25 @@ class QuotesRepositoryImpl(
                     )
                 )
             ).toLoginResponse()
+        }
+    }
+
+    override suspend fun signUp(
+        userName: String,
+        email: String,
+        password: String
+    ): ResultWrapper<SignUpResponse> {
+        return safeApiCall(dispatcher) {
+            api.signUp(
+                user =
+                UserSignUpRequestRaw(
+                    UserSignUpRaw(
+                        login = userName,
+                        email = email,
+                        password = password
+                    )
+                )
+            ).toSignUpResponse()
         }
     }
 

@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +27,7 @@ class MainViewModel @Inject constructor(
             Action.OnLogin -> sendInScope(ToLogin)
             Action.OnPublicQuotes -> sendInScope(ToPublicQuotes)
             Action.OnSearchQuotes -> sendInScope(ToSearchQuotes)
+            Action.OnSignUp -> sendInScope(ToSignUp)
         }
     }
 
@@ -38,8 +38,7 @@ class MainViewModel @Inject constructor(
     private fun getRandomQuote() {
         state.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.Default) {
-            val response = getRandomQuoteUseCase()
-            when (response) {
+            when (val response = getRandomQuoteUseCase()) {
                 is ResultWrapper.Success -> onSuccess(response.value)
                 else -> onError()
             }
