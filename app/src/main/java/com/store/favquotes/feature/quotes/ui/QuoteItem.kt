@@ -1,15 +1,16 @@
 package com.store.favquotes.feature.quotes.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.ThumbDown
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,33 +19,116 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.store.favquotes.R
 import com.store.favquotes.feature.quotes.domain.model.Quote
+import com.store.favquotes.ui.theme.spacing
+
+enum class ExpandableState { VISIBLE, HIDDEN }
 
 @Composable
 fun QuoteItem(
-    quote: Quote
+    quote: Quote,
+    defaultState: ExpandableState = ExpandableState.HIDDEN,
 ) {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            modifier = Modifier.fillMaxWidth(0.8f),
-            text = getAnnotatedQuote(quote = quote),
-            style = MaterialTheme.typography.subtitle1,
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+    var isExpandedContentVisible by remember { mutableStateOf(defaultState) }
+
+    Column {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                isExpandedContentVisible = if (isExpandedContentVisible == ExpandableState.VISIBLE)
+                    ExpandableState.HIDDEN
+                else ExpandableState.VISIBLE
+            }) {
+            Text(
+                modifier = Modifier.fillMaxWidth(0.8f),
+                text = getAnnotatedQuote(quote = quote),
+                style = MaterialTheme.typography.subtitle1,
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
-                Icon(
-                    Icons.Filled.FavoriteBorder, null,
-                    tint = MaterialTheme.colors.error
-                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Filled.FavoriteBorder, null,
+                        tint = MaterialTheme.colors.error
+                    )
+                    Text(
+                        text = stringResource(id = R.string.favorites, quote.favoritesCount),
+                        style = MaterialTheme.typography.subtitle2,
+                        color = MaterialTheme.colors.onSurface
+                    )
+                }
+            }
+        }
+        AnimatedVisibility(visible = isExpandedContentVisible == ExpandableState.VISIBLE) {
+            ExpandableContent(quote = quote)
+        }
+    }
+}
+
+@Composable
+fun ExpandableContent(quote: Quote) {
+    Column(modifier = Modifier.padding(vertical = MaterialTheme.spacing.small)) {
+
+        if (quote.tags.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = MaterialTheme.spacing.medium)
+            ) {
                 Text(
-                    text = stringResource(id = R.string.favorites, quote.favoritesCount),
-                    style = MaterialTheme.typography.subtitle2,
-                    color = MaterialTheme.colors.onSurface
+                    modifier = Modifier
+                        .padding(end = MaterialTheme.spacing.small),
+                    text = stringResource(id = R.string.tags_title),
+                    color = MaterialTheme.colors.primaryVariant
+                )
+                quote.tags.forEachIndexed { index, tag ->
+                    Text(
+                        tag,
+                        color = MaterialTheme.colors.onSurface
+                    )
+
+                    if (index != quote.tags.lastIndex) {
+                        Text(
+                            ", ",
+                            color = MaterialTheme.colors.onSurface
+                        )
+                    }
+                }
+            }
+        }
+        quote.upvotesCount?.let {
+            Row(
+                modifier = Modifier.padding(top = MaterialTheme.spacing.small),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.padding(end = MaterialTheme.spacing.small),
+                    text = quote.upvotesCount.toString(),
+                    style = MaterialTheme.typography.subtitle1,
+                )
+                Icon(
+                    Icons.Filled.ThumbUp, null,
+                    tint = MaterialTheme.colors.primary
+                )
+            }
+        }
+        quote.downvotesCount?.let {
+            Row(
+                modifier = Modifier.padding(top = MaterialTheme.spacing.small),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.padding(end = MaterialTheme.spacing.small),
+                    text = quote.downvotesCount.toString(),
+                    style = MaterialTheme.typography.subtitle1,
+                )
+                Icon(
+                    Icons.Filled.ThumbDown, null,
+                    tint = MaterialTheme.colors.error
                 )
             }
         }
@@ -74,7 +158,7 @@ fun getAnnotatedQuote(
 fun QuoteItemPreview() {
     QuoteItem(
         quote = Quote(
-            tags = listOf(),
+            tags = listOf("tag1", "tag2"),
             isFavorite = false,
             authorPermalink = "",
             body = "This is a quote",
@@ -86,5 +170,6 @@ fun QuoteItemPreview() {
             author = "Tolstoi",
             url = "",
         ),
+        defaultState = ExpandableState.VISIBLE,
     )
 }
