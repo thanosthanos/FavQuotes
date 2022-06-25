@@ -2,6 +2,7 @@ package com.store.favquotes.feature.quotes.data.repository
 
 import com.store.favquotes.feature.quotes.data.remote.api.QuotesApi
 import com.store.favquotes.feature.quotes.data.remote.raw.UserRaw
+import com.store.favquotes.feature.quotes.data.remote.raw.UserRequestRaw
 import com.store.favquotes.feature.quotes.data.remote.raw.toLoginResponse
 import com.store.favquotes.feature.quotes.data.remote.raw.toQuotes
 import com.store.favquotes.feature.quotes.domain.QuotesRepository
@@ -35,9 +36,11 @@ class QuotesRepositoryImpl(
     ): ResultWrapper<LoginResponse> {
         return safeApiCall(dispatcher) {
             api.login(
-                user = UserRaw(
-                    login = userNameOrEmail,
-                    password = password
+                user = UserRequestRaw(
+                    UserRaw(
+                        login = userNameOrEmail,
+                        password = password
+                    )
                 )
             ).toLoginResponse()
         }

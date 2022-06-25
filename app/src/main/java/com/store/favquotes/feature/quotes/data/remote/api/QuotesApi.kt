@@ -2,7 +2,7 @@ package com.store.favquotes.feature.quotes.data.remote.api
 
 import com.store.favquotes.feature.quotes.data.remote.raw.LoginResponseRaw
 import com.store.favquotes.feature.quotes.data.remote.raw.QuotesResponseRaw
-import com.store.favquotes.feature.quotes.data.remote.raw.UserRaw
+import com.store.favquotes.feature.quotes.data.remote.raw.UserRequestRaw
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,5 +19,5 @@ interface QuotesApi {
     ): QuotesResponseRaw
 
     @POST("session")
-    suspend fun login(@Body user: UserRaw): LoginResponseRaw
+    suspend fun login(@Body user: UserRequestRaw): LoginResponseRaw
 }

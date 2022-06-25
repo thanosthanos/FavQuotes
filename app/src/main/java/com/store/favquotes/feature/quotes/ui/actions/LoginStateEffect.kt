@@ -8,7 +8,7 @@ object LoginStateEffect {
         val isLoading: Boolean = false,
         val hasError: Boolean = false,
         val errorMessage: String? = null,
-        val signedIn: Boolean = false,
+        val shouldShowSignedInDialog: Boolean = false,
     ) {
         fun isLoginEnabled(): Boolean = userNameOrEmail.isEmpty().not() && password.isEmpty().not()
     }
@@ -22,6 +22,7 @@ object LoginStateEffect {
     sealed interface Action {
         object OnLogin : Action
         object OnBack : Action
+        object DismissSignInDialog : Action
         data class OnUsernameValueChanged(val userName: String) : Action
         data class OnPasswordValueChanged(val password: String) : Action
     }

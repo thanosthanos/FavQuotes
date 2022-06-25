@@ -46,6 +46,33 @@ fun LoginView(
         backAction = { viewModel.onAction(action = OnBack) },
     )
 
+    if (state.shouldShowSignedInDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.onAction(action = DismissSignInDialog) },
+            title = {
+                Text(text = stringResource(id = R.string.sign_in_success_title))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.sign_in_success_message))
+            },
+            buttons = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = MaterialTheme.spacing.medium),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        modifier = Modifier.wrapContentWidth(),
+                        onClick = { viewModel.onAction(action = DismissSignInDialog) }
+                    ) {
+                        Text(stringResource(id = R.string.ok_title))
+                    }
+                }
+            }
+        )
+    }
+
     HandleEvents(
         event = viewModel.event,
         goBack = goBack,

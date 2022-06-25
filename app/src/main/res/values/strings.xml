@@ -9,10 +9,14 @@
     <string name="search_public_quotes">Search public quotes</string>
     <string name="error_general">Unexpected error, please try again later…</string>
     <string name="favorites">%d favs</string>
-    <string name="login">Login</string>
     <string name="search_hint">Search a quote</string>
+
+    <string name="login">Login</string>
     <string name="sign_in">Sign in</string>
     <string name="username_or_email">Username or email</string>
     <string name="password">Password</string>
+    <string name="sign_in_success_title">Signed in successfully</string>
+    <string name="sign_in_success_message">You have signed in the app, please enjoy the experience!</string>
+    <string name="ok_title">OK</string>
 
 </resources>

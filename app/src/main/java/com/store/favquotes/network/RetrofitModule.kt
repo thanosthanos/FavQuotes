@@ -1,9 +1,12 @@
 package com.store.favquotes.network
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,9 +28,11 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun providesOkHttp(
+        @ApplicationContext context: Context,
         authorizationInterceptor: AuthorizationInterceptor,
     ) = OkHttpClient
         .Builder()
+        .addInterceptor(ChuckerInterceptor.Builder(context).build())
         .addInterceptor(authorizationInterceptor)
         .callTimeout(callTimeout, TimeUnit.SECONDS)
         .build()

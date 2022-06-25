@@ -29,7 +29,13 @@ class LoginViewModel @Inject constructor(
             Action.OnLogin -> login()
             is Action.OnPasswordValueChanged -> onPasswordValueChanged(action.password)
             is Action.OnUsernameValueChanged -> onUsernameValueChanged(action.userName)
+            Action.DismissSignInDialog -> dismissSignInDialog()
         }
+    }
+
+    private fun dismissSignInDialog() {
+        state.update { it.copy(shouldShowSignedInDialog = false) }
+        sendInScope(Back)
     }
 
     private fun onUsernameValueChanged(userNameOrEmail: String) {
@@ -56,7 +62,7 @@ class LoginViewModel @Inject constructor(
         if(loginResponse.errorMessage != null) {
             state.update { it.copy(hasError = true, errorMessage = loginResponse.errorMessage) }
         } else {
-            state.update { it.copy(hasError = false, errorMessage = null, signedIn = true) }
+            state.update { it.copy(hasError = false, errorMessage = null, shouldShowSignedInDialog = true) }
         }
     }
 
