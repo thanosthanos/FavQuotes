@@ -7,6 +7,8 @@ object LoginStateEffect {
         val password: String = "",
         val isLoading: Boolean = false,
         val hasError: Boolean = false,
+        val errorMessage: String? = null,
+        val signedIn: Boolean = false,
     ) {
         fun isLoginEnabled(): Boolean = userNameOrEmail.isEmpty().not() && password.isEmpty().not()
     }

@@ -7,6 +7,7 @@ fun LoginResponseRaw.toLoginResponse(): LoginResponse =
     LoginResponse(
         login = login,
         email = email,
+        errorMessage = message,
     )
 
 fun List<QuoteRaw>.toQuotes(): List<Quote> = map { it.toQuote() }

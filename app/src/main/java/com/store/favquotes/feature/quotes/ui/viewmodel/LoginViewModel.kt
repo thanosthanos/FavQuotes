@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,10 +53,14 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onSuccess(loginResponse: LoginResponse) {
-        Timber.d("")
+        if(loginResponse.errorMessage != null) {
+            state.update { it.copy(hasError = true, errorMessage = loginResponse.errorMessage) }
+        } else {
+            state.update { it.copy(hasError = false, errorMessage = null, signedIn = true) }
+        }
     }
 
     private fun onError() {
-        Timber.d("")
+        state.update { it.copy(hasError = true, errorMessage = null) }
     }
 }

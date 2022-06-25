@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +36,7 @@ fun LoginView(
     LoginView(
         isLoading = state.isLoading,
         hasError = state.hasError,
+        errorMessage = state.errorMessage,
         isLoginEnabled = state.isLoginEnabled(),
         usernameOrEmail = state.userNameOrEmail,
         password = state.password,
@@ -54,6 +56,7 @@ fun LoginView(
 private fun LoginView(
     isLoading: Boolean,
     hasError: Boolean,
+    errorMessage: String?,
     isLoginEnabled: Boolean,
     usernameOrEmail: String,
     password: String,
@@ -91,7 +94,7 @@ private fun LoginView(
             )
             OutlinedTextField(
                 modifier = Modifier
-                    .padding(top = MaterialTheme.spacing.small),
+                    .padding(vertical = MaterialTheme.spacing.small),
                 value = password,
                 onValueChange = { value ->
                     passwordChanged(value)
@@ -101,6 +104,14 @@ private fun LoginView(
                 },
                 visualTransformation = PasswordVisualTransformation(),
             )
+            if (hasError) {
+                val error = errorMessage ?: stringResource(id = R.string.error_general)
+                Text(
+                    text = error,
+                    color = MaterialTheme.colors.error,
+                    textAlign = TextAlign.Center,
+                )
+            }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,7 +128,7 @@ private fun LoginView(
                 ) {
                     Text(text = stringResource(id = R.string.login))
                 }
-                if(isLoading) {
+                if (isLoading) {
                     CircularProgressIndicator()
                 }
             }
@@ -132,6 +143,7 @@ fun LoginViewPreview() {
     LoginView(
         isLoading = false,
         hasError = false,
+        errorMessage = null,
         isLoginEnabled = false,
         usernameOrEmail = "",
         password = "",

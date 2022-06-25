@@ -6,4 +6,5 @@ import com.squareup.moshi.JsonClass
 data class LoginResponseRaw(
     val login: String?,
     val email: String?,
+    val message: String?,
 )
