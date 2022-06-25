@@ -10,7 +10,7 @@ object LoginStateEffect {
         val errorMessage: String? = null,
         val shouldShowSignedInDialog: Boolean = false,
     ) {
-        fun isLoginEnabled(): Boolean = userNameOrEmail.isEmpty().not() && password.isEmpty().not()
+        fun isLoginEnabled(): Boolean = userNameOrEmail.isEmpty().not() && password.isEmpty().not() && isLoading.not()
     }
 
     sealed interface Event {

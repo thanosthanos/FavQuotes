@@ -47,6 +47,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun login() {
+        state.update { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.Default) {
             when (val response = loginUseCase(
                 userNameOrEmail = state.value.userNameOrEmail,
@@ -60,13 +61,13 @@ class LoginViewModel @Inject constructor(
 
     private fun onSuccess(loginResponse: LoginResponse) {
         if(loginResponse.errorMessage != null) {
-            state.update { it.copy(hasError = true, errorMessage = loginResponse.errorMessage) }
+            state.update { it.copy(isLoading = false, hasError = true, errorMessage = loginResponse.errorMessage) }
         } else {
-            state.update { it.copy(hasError = false, errorMessage = null, shouldShowSignedInDialog = true) }
+            state.update { it.copy(isLoading = false, hasError = false, errorMessage = null, shouldShowSignedInDialog = true) }
         }
     }
 
     private fun onError() {
-        state.update { it.copy(hasError = true, errorMessage = null) }
+        state.update { it.copy(isLoading = false, hasError = true, errorMessage = null) }
     }
 }

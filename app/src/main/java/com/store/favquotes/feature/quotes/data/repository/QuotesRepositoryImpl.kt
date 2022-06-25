@@ -36,7 +36,8 @@ class QuotesRepositoryImpl(
     ): ResultWrapper<LoginResponse> {
         return safeApiCall(dispatcher) {
             api.login(
-                user = UserRequestRaw(
+                user =
+                UserRequestRaw(
                     UserRaw(
                         login = userNameOrEmail,
                         password = password
