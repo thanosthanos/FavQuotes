@@ -39,6 +39,7 @@ fun SearchQuotes(
         isLoading = state.isLoading,
         hasError = state.hasError,
         quotes = state.quotes,
+        hasQuotes = state.hasQuotes(),
         searchTerm = state.searchTerm,
         onValueChange = { viewModel.onAction(action = OnSearchTerm(it)) },
         backAction = { viewModel.onAction(action = OnBack) },
@@ -55,6 +56,7 @@ private fun SearchQuotes(
     isLoading: Boolean,
     hasError: Boolean,
     quotes: List<Quote>,
+    hasQuotes: Boolean,
     searchTerm: String,
     onValueChange: (String) -> Unit,
     backAction: () -> Unit,
@@ -91,7 +93,16 @@ private fun SearchQuotes(
                 modifier = Modifier.padding(all = MaterialTheme.spacing.medium),
                 text = stringResource(id = R.string.error_general)
             )
-            else -> QuotesList(quotes = quotes)
+            else -> {
+                if(hasQuotes) {
+                    QuotesList(quotes = quotes)
+                } else {
+                    Text(
+                        modifier = Modifier.padding(all = MaterialTheme.spacing.medium),
+                        text = stringResource(id = R.string.no_quotes_found)
+                    )
+                }
+            }
         }
     }
 }
@@ -103,6 +114,7 @@ fun SearchQuotesPreview() {
         isLoading = false,
         hasError = false,
         quotes = listOf(),
+        hasQuotes = true,
         searchTerm = "",
         onValueChange = {},
         backAction = {},

@@ -4,5 +4,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class QuotesResponseRaw(
-    val quotes: List<QuoteRaw>
+    val quotes: List<QuoteRaw>,
 )

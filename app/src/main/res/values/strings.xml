@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FavQuotes</string>
     <string name="app_title">See and search your favorite quotes!</string>
-    <string name="fav_quotes_tile">A quote for you:</string>
+    <string name="fav_quotes_tile">A random quote for you:</string>
     <string name="error_could_not_load_quote">You were unlucky, please try another time!</string>
     <string name="public_quotes">Public quotes</string>
     <string name="search_quotes">Search quotes</string>
@@ -10,6 +10,7 @@
     <string name="error_general">Unexpected error, please try again later…</string>
     <string name="favorites">%d favs</string>
     <string name="search_hint">Search a quote</string>
+    <string name="no_quotes_found">No quotes found!</string>
 
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>

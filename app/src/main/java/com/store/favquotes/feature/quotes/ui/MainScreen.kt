@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.store.favquotes.R
@@ -86,6 +87,7 @@ private fun MainScreen(
             text = stringResource(id = R.string.app_title),
             fontWeight = FontWeight.SemiBold,
             style = MaterialTheme.typography.h4,
+            textAlign = TextAlign.Center,
         )
         Text(
             modifier = Modifier.padding(top = MaterialTheme.spacing.medium),
@@ -96,7 +98,9 @@ private fun MainScreen(
         when {
             isLoading -> {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = MaterialTheme.spacing.small),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator()
@@ -110,6 +114,8 @@ private fun MainScreen(
             }
             quote != null -> {
                 Text(
+                    modifier = Modifier
+                        .padding(top = MaterialTheme.spacing.small),
                     text = quote.body,
                     style = MaterialTheme.typography.subtitle1,
                 )

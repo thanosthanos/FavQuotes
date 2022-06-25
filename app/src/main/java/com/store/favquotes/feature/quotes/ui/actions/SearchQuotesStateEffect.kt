@@ -8,8 +8,10 @@ object SearchQuotesStateEffect {
         val searchTerm: String = "",
         val quotes: List<Quote> = listOf(),
         val isLoading: Boolean = false,
-        val hasError: Boolean = false, // TODO delete
-    )
+        val hasError: Boolean = false,
+    ) {
+        fun hasQuotes(): Boolean = (quotes.size == 1 && quotes[0].author == null).not()
+    }
 
     sealed interface Event {
         sealed interface Navigate : Event {

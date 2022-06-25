@@ -30,14 +30,16 @@ fun QuoteItem(
 ) {
     var isExpandedContentVisible by remember { mutableStateOf(defaultState) }
 
-    Column {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                isExpandedContentVisible = if (isExpandedContentVisible == ExpandableState.VISIBLE)
-                    ExpandableState.HIDDEN
-                else ExpandableState.VISIBLE
-            }) {
+    Column(
+        modifier = Modifier.clickable {
+            isExpandedContentVisible = if (isExpandedContentVisible == ExpandableState.VISIBLE)
+                ExpandableState.HIDDEN
+            else ExpandableState.VISIBLE
+        }
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 text = getAnnotatedQuote(quote = quote),
@@ -93,7 +95,8 @@ fun ExpandableContent(quote: Quote) {
 
                     if (index != quote.tags.lastIndex) {
                         Text(
-                            ", ",
+                            modifier = Modifier.padding(end = MaterialTheme.spacing.small),
+                            text = ",",
                             color = MaterialTheme.colors.onSurface
                         )
                     }
