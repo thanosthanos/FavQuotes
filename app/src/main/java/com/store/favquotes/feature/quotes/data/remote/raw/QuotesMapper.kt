@@ -1,7 +1,13 @@
 package com.store.favquotes.feature.quotes.data.remote.raw
 
+import com.store.favquotes.feature.quotes.domain.model.LoginResponse
 import com.store.favquotes.feature.quotes.domain.model.Quote
 
+fun LoginResponseRaw.toLoginResponse(): LoginResponse =
+    LoginResponse(
+        login = login,
+        email = email,
+    )
 
 fun List<QuoteRaw>.toQuotes(): List<Quote> = map { it.toQuote() }
 
