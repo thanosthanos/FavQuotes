@@ -18,7 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.store.favquotes.R
 import com.store.favquotes.extension.collectAsStateLifecycleAware
 import com.store.favquotes.feature.quotes.domain.model.Quote
-import com.store.favquotes.feature.quotes.ui.actions.SearchQuotesStateEffect
 import com.store.favquotes.feature.quotes.ui.actions.SearchQuotesStateEffect.Action.*
 import com.store.favquotes.feature.quotes.ui.actions.SearchQuotesStateEffect.Event
 import com.store.favquotes.feature.quotes.ui.actions.SearchQuotesStateEffect.Event.Navigate.Back
@@ -29,13 +28,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
-fun SearchQuotes(
+fun SearchQuotesScreen(
     viewModel: SearchQuotesViewModel = hiltViewModel(),
     goBack: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateLifecycleAware().value
 
-    SearchQuotes(
+    SearchQuotesScreen(
         isLoading = state.isLoading,
         hasError = state.hasError,
         quotes = state.quotes,
@@ -52,7 +51,7 @@ fun SearchQuotes(
 }
 
 @Composable
-private fun SearchQuotes(
+private fun SearchQuotesScreen(
     isLoading: Boolean,
     hasError: Boolean,
     quotes: List<Quote>,
@@ -110,7 +109,7 @@ private fun SearchQuotes(
 @Preview(showBackground = true)
 @Composable
 fun SearchQuotesPreview() {
-    SearchQuotes(
+    SearchQuotesScreen(
         isLoading = false,
         hasError = false,
         quotes = listOf(),

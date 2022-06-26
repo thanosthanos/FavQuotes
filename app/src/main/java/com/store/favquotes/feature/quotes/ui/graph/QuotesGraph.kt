@@ -1,7 +1,6 @@
 package com.store.favquotes.feature.quotes.ui.graph
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.slideInHorizontally
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.navigation
@@ -35,19 +34,19 @@ object QuotesGraph : NavigationRoute() {
                 )
             }
             routeComposable(Screens.ListOfQuotes) {
-                ListOfQuotes(
+                PublicQuotesScreen(
                     goBack = { navController.popBackStack() },
                 )
             }
 
             routeComposable(Screens.SearchQuotes) {
-                SearchQuotes(
+                SearchQuotesScreen(
                     goBack = { navController.popBackStack() },
                 )
             }
 
             routeComposable(Screens.Login) {
-                LoginView(
+                LoginScreen(
                     goBack = { navController.popBackStack() },
                 )
             }

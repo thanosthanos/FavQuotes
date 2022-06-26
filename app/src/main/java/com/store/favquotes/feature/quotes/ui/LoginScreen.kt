@@ -27,13 +27,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 
 @Composable
-fun LoginView(
+fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     goBack: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateLifecycleAware().value
 
-    LoginView(
+    LoginScreen(
         isLoading = state.isLoading,
         hasError = state.hasError,
         errorMessage = state.errorMessage,
@@ -80,7 +80,7 @@ fun LoginView(
 }
 
 @Composable
-private fun LoginView(
+private fun LoginScreen(
     isLoading: Boolean,
     hasError: Boolean,
     errorMessage: String?,
@@ -167,7 +167,7 @@ private fun LoginView(
 @Preview(showBackground = true)
 @Composable
 fun LoginViewPreview() {
-    LoginView(
+    LoginScreen(
         isLoading = false,
         hasError = false,
         errorMessage = null,

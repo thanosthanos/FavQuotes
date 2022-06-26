@@ -27,13 +27,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
-fun ListOfQuotes(
+fun PublicQuotesScreen(
     viewModel: ListOfQuotesViewModel = hiltViewModel(),
     goBack: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateLifecycleAware().value
 
-    ListOfQuotes(
+    PublicQuotesScreen(
         isLoading = state.isLoading,
         hasError = state.hasError,
         quotes = state.quotes,
@@ -47,7 +47,7 @@ fun ListOfQuotes(
 }
 
 @Composable
-private fun ListOfQuotes(
+private fun PublicQuotesScreen(
     isLoading: Boolean,
     hasError: Boolean,
     quotes: List<Quote>,
@@ -88,7 +88,7 @@ private fun ListOfQuotes(
 @Preview(showBackground = true)
 @Composable
 fun ListOfQuotesPreview() {
-    ListOfQuotes(
+    PublicQuotesScreen(
         isLoading = false,
         hasError = false,
         quotes = listOf(),
