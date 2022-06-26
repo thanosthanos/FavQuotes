@@ -15,12 +15,14 @@ object SignUpStateEffect {
         val errorMessage: String? = null,
         val shouldShowSignedUpDialog: Boolean = false,
     ) {
-        fun isSignUpEnabled(): Boolean = (userName.isUserNameValid() || email.isEmailValid()) && password.isPasswordValid()
+        fun isSignUpEnabled(): Boolean =
+            userName.isUserNameValid() && (email.isEmpty() || email.isEmailValid())
+                    && password.isPasswordValid() && isLoading.not()
     }
 
     sealed interface Event {
         sealed interface Navigate : Event {
-            object Back: Navigate
+            object Back : Navigate
         }
     }
 

@@ -68,7 +68,7 @@ private fun SignUpScreen(
     signUpAction: () -> Unit,
     backAction: () -> Unit,
 ) {
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             elevation = 4.dp,
             title = {

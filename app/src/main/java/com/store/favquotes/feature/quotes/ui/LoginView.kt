@@ -92,7 +92,7 @@ private fun LoginView(
     login: () -> Unit,
     backAction: () -> Unit,
 ) {
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             elevation = 4.dp,
             title = {

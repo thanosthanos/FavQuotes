@@ -1,8 +1,10 @@
 package com.store.favquotes.feature.quotes.ui.graph
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInHorizontally
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.navigation
+import com.google.accompanist.navigation.animation.navigation
 import com.store.favquotes.feature.quotes.ui.*
 import com.store.favquotes.route.NavigationRoute
 import com.store.favquotes.route.routeComposable
@@ -10,6 +12,7 @@ import com.store.favquotes.route.routeComposable
 object QuotesGraph : NavigationRoute() {
     override val route: String = "quotes"
 
+    @OptIn(ExperimentalAnimationApi::class)
     fun NavGraphBuilder.quotesGraph(navController: NavController) {
         navigation(
             startDestination = Screens.MainScreen.route,

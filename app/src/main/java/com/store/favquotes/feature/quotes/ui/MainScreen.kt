@@ -1,7 +1,9 @@
 package com.store.favquotes.feature.quotes.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -84,10 +86,12 @@ private fun MainScreen(
     loginAction: () -> Unit,
     signUpAction: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(all = MaterialTheme.spacing.medium)
+            .verticalScroll(scrollState)
     ) {
         Text(
             text = stringResource(id = R.string.app_title),
@@ -116,6 +120,7 @@ private fun MainScreen(
                 Text(
                     text = stringResource(id = R.string.error_could_not_load_quote),
                     style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.error,
                 )
             }
             quote != null -> {
